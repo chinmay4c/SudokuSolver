@@ -112,6 +112,90 @@ function generatePuzzle(difficulty) {
     }
 }
 
+function updateBoard() {
+    const cells = board.getElementsByClassName('cell');
+    for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+            const cell = cells[i * 9 + j];
+            cell.textContent = sudokuGrid[i][j] || '';
+            cell.className = 'cell';
+            if (sudokuGrid[i][j] !== 0) {
+                cell.classList.add('given');
+            }
+        }
+    }
+}
+
+function solveSudoku() {
+    for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+            if (sudokuGrid[i][j] === 0) {
+                sudokuGrid[i][j] = solution[i][j];
+            }
+        }
+    }
+    updateBoard();
+    endGame('Puzzle Solved', 'The puzzle has been solved for you!');
+}
+
+function checkWin() {
+    for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+            if (sudokuGrid[i][j] !== solution[i][j]) {
+                return;
+            }
+        }
+    }
+    endGame('Congratulations!', 'You solved the puzzle!');
+}
+
+function startTimer() {
+    if (timerInterval) {
+        clearInterval(timerInterval);
+    }
+    seconds = 0;
+    timerInterval = setInterval(() => {
+        seconds++;
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+        timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+    }, 1000);
+}
+
+function endGame(title, message) {
+    clearInterval(timerInterval);
+    modalTitle.textContent = title;
+    modalMessage.textContent = message;
+    modal.style.display = 'block';
+}
+
+function newGame() {
+    const difficulty = difficultySelect.value;
+    generatePuzzle(difficulty);
+    updateBoard();
+    mistakes = 0;
+    mistakeCount.textContent = mistakes;
+    startTimer();
+}
+
+function provideHint() {
+    if (selectedCell && selectedCell.textContent === '') {
+        const row = parseInt(selectedCell.dataset.row);
+        const col = parseInt(selectedCell.dataset.col);
+        selectedCell.textContent = solution[row][col];
+        sudokuGrid[row][col] = solution[row][col];
+        selectedCell.classList.add('given');
+    }
+}
+
+newGameBtn.addEventListener('click', newGame);
+solveBtn.addEventListener('click', solveSudoku);
+checkBtn.addEventListener('click', checkWin);
+hintBtn.addEventListener('click', provideHint);
+modalClose.addEventListener('click', () => {
+    modal.style.display = 'none';
+});
+
 createBoard();
 createNumberPad();
 newGame();
