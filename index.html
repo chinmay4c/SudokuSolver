@@ -3,34 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sudoku Game</title>
+    <title>Sudoku Master</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Sudoku</h1>
-        <div class="game-area">
-            <div id="sudoku-board"></div>
-            <div class="controls">
-                <div class="difficulty">
-                    <label for="difficulty-select">Difficulty:</label>
+    <div class="game-container">
+        <header>
+            <h1>Sudoku Master</h1>
+        </header>
+        <main>
+            <div class="game-board">
+                <div id="sudoku-board"></div>
+                <div id="number-pad"></div>
+            </div>
+            <div class="game-controls">
+                <div class="control-group">
                     <select id="difficulty-select">
                         <option value="easy">Easy</option>
                         <option value="medium">Medium</option>
                         <option value="hard">Hard</option>
                     </select>
+                    <button id="new-game-btn">New Game</button>
                 </div>
-                <button id="new-game-btn">New Game</button>
-                <button id="solve-btn">Solve</button>
-                <button id="check-btn">Check</button>
-                <button id="hint-btn">Hint</button>
+                <div class="control-group">
+                    <button id="hint-btn">Hint</button>
+                    <button id="check-btn">Check</button>
+                    <button id="solve-btn">Solve</button>
+                </div>
+                <div class="game-info">
+                    <div class="info-item">
+                        <span class="info-label">Time:</span>
+                        <span id="timer">00:00</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Mistakes:</span>
+                        <span id="mistake-count">0</span>/3
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="game-info">
-            <div class="timer">Time: <span id="timer">00:00</span></div>
-            <div class="mistakes">Mistakes: <span id="mistake-count">0</span>/3</div>
-        </div>
-        <div id="number-pad"></div>
+        </main>
     </div>
     <div id="modal" class="modal">
         <div class="modal-content">
