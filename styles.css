@@ -1,11 +1,15 @@
 :root {
-    --primary-color: #3498db;
-    --secondary-color: #2ecc71;
-    --background-color: #ecf0f1;
+    --primary-color: #2980b9;
+    --secondary-color: #27ae60;
+    --background-color: #f7f9fc;
     --board-color: #ffffff;
     --text-color: #2c3e50;
     --border-color: #bdc3c7;
     --highlight-color: #e74c3c;
+    --box-shadow-color: rgba(0, 0, 0, 0.1);
+    --selected-cell-color: #d0e7ff;
+    --hover-cell-color: #e6f2ff;
+    --modal-background-color: rgba(0, 0, 0, 0.8);
 }
 
 body {
@@ -23,7 +27,7 @@ body {
 .game-container {
     background-color: var(--board-color);
     border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 20px 40px var(--box-shadow-color);
     padding: 30px;
     max-width: 600px;
     width: 100%;
@@ -36,8 +40,9 @@ header {
 
 h1 {
     color: var(--primary-color);
-    font-size: 2.5em;
+    font-size: 3em;
     margin: 0;
+    text-shadow: 2px 2px 4px var(--box-shadow-color);
 }
 
 main {
@@ -57,7 +62,7 @@ main {
     grid-template-columns: repeat(9, 1fr);
     gap: 1px;
     background-color: var(--border-color);
-    border: 2px solid var(--border-color);
+    border: 3px solid var(--primary-color);
     border-radius: 10px;
     overflow: hidden;
 }
@@ -68,40 +73,37 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.2em;
+    font-size: 1.4em;
     font-weight: 600;
     background-color: var(--board-color);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: inset 0 0 5px var(--box-shadow-color);
 }
 
 .cell:hover {
-    background-color: #e0e0e0;
+    background-color: var(--hover-cell-color);
+    box-shadow: inset 0 0 10px var(--box-shadow-color);
 }
 
 .cell.selected {
-    background-color: #a0d0ff;
+    background-color: var(--selected-cell-color);
+    box-shadow: inset 0 0 15px var(--box-shadow-color);
 }
 
 .cell.given {
     color: var(--primary-color);
+    font-weight: 700;
 }
 
 .cell.correct {
     color: var(--secondary-color);
+    font-weight: 700;
 }
 
 .cell.incorrect {
     color: var(--highlight-color);
-}
-
-.cell:nth-child(3n) {
-    border-right: 2px solid var(--border-color);
-}
-
-.cell:nth-child(n+19):nth-child(-n+27),
-.cell:nth-child(n+46):nth-child(-n+54) {
-    border-bottom: 2px solid var(--border-color);
+    font-weight: 700;
 }
 
 #number-pad {
@@ -111,18 +113,28 @@ main {
 }
 
 .number-btn {
-    font-size: 1.2em;
-    padding: 10px;
+    font-size: 1.5em;
+    padding: 15px;
     background-color: var(--primary-color);
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 5px 15px var(--box-shadow-color);
 }
 
 .number-btn:hover {
-    background-color: #2980b9;
+    background-color: #1f639d;
+    transform: translateY(-3px);
+}
+
+.erase-btn {
+    background-color: var(--highlight-color);
+}
+
+.erase-btn:hover {
+    background-color: #c0392b;
 }
 
 .game-controls {
@@ -137,12 +149,13 @@ main {
 }
 
 select, button {
-    font-size: 1em;
-    padding: 10px 15px;
+    font-size: 1.2em;
+    padding: 12px 18px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
+    box-shadow: 0 5px 15px var(--box-shadow-color);
 }
 
 select {
@@ -156,7 +169,7 @@ button {
 }
 
 button:hover {
-    background-color: #27ae60;
+    background-color: #219150;
 }
 
 #new-game-btn {
@@ -164,7 +177,7 @@ button:hover {
 }
 
 #new-game-btn:hover {
-    background-color: #2980b9;
+    background-color: #1f639d;
 }
 
 .game-info {
@@ -172,7 +185,8 @@ button:hover {
     justify-content: space-between;
     background-color: var(--background-color);
     padding: 10px 15px;
-    border-radius: 5px;
+    border-radius: 8px;
+    box-shadow: 0 5px 10px var(--box-shadow-color);
 }
 
 .info-item {
@@ -193,7 +207,9 @@ button:hover {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.5);
+    background-color: var(--modal-background-color);
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-content {
@@ -203,10 +219,23 @@ button:hover {
     border-radius: 10px;
     max-width: 400px;
     text-align: center;
+    box-shadow: 0 20px 40px var(--box-shadow-color);
+    animation: fadeIn 0.5s ease-in;
 }
 
 #modal-close {
     margin-top: 20px;
+    background-color: var(--highlight-color);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#modal-close:hover {
+    background-color: #c0392b;
 }
 
 @media (max-width: 600px) {
@@ -220,9 +249,9 @@ button:hover {
     }
 
     .cell {
-        width: 30px;
-        height: 30px;
-        font-size: 1em;
+        width: 35px;
+        height: 35px;
+        font-size: 1.1em;
     }
 
     #number-pad {
